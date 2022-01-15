@@ -177,3 +177,42 @@ int borde_esquina(int i, int j, int** tablero, int dimension)
         return 0; //Piezas sin tope en sus vecinos.
     }
 }
+
+struct Cola
+{
+    int fila;
+    int columna;
+    struct Cola *sig;    
+};
+
+
+
+void Recorrido(int **tablero, int dimension) //Solo para implementar la lógica de lo que contienen las piezas
+                                //dimensión es el lado más pequeño
+{
+    struct Cola A;
+    int Actual[2];
+    int fila_actual;
+    int columna_actual;
+
+    // Iniciamos la cola con el primer elemento del tablero.
+    // Primer elemento depende...
+
+    // Añadimos a la Cola el elemento de la derecha y el elemento de abajo, si alguno es una pieza igualamos 
+
+    while(A != NULL)
+    {
+        if (tablero[Actual[0]][Actual[1]] != 0) //que no sea una pieza.
+            if (A[0].fila != fila_actual || A[0].columna != columna_actual)
+            {
+                if (fila + 1 != dimesion)
+                    push(A, tablero[fila +1][columna]); // elemento de la derecha
+                if (columna + 1 != dimesion)
+                    push(A, tablero[fila][columna + 1]);  // elemento de abajo
+            }
+            Actual[0] = A[0].fila;
+            Actual[1] = A[0].columna;
+
+            pop(A);
+    }
+}
