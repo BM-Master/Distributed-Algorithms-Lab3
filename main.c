@@ -4,9 +4,10 @@
 
 /*
     TODO:
-        1- Hacer el envío a cada proceso desde el Master con su porción de tablero correspondiente
-        2- Ya luego definir la función que procesará la información y arrojará el resultado
-            de si un área pertenece a un color de ficha o no.
+        1- Implementar la cola a cada subproceso
+        2- Realizar el análisis del tablero
+        3- Obtener un resultado coherente al juntar los resultados de cada proceso
+        4- Implementar la partición horizontal
 */
 
 int borde_esquina(int i, int j, int **tablero, int dimension);
