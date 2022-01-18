@@ -304,69 +304,24 @@ unsigned char **crearSubTableroVertical(unsigned char **tablero, int colInicio, 
     return subTablero;
 }
 
-int borde_esquina(int i, int j, int **tablero, int dimension)
+
+// Solo para implementar la lógica de lo que contienen las piezas
+
+// dimensión: es el lado más pequeño
+// Asumo que el lado más largo es una variable global
+// También si es vertical u horizontal en una variable global.
+
+int Recorrido(int **tablero, int dimension, int inicio_F, int inicio_C)
 {
-    // i: filas, j: columnas
+    int pertenece = 0; //0: Nadie 1: Blanco 2: Negro.
 
-    if (i == 0 && j == 0)
-    {
-        return 1; // Esquina superior izquierda
-    }
+    //struct Cola A;
+    int *fila;
+    int *columna;
+    coordenadas(&fila, &columna, 1);
 
-    if (i == 0 && j == dimension - 1)
-    {
-        return 2; // Esquina superior derecha
-    }
+    int i = 0;
 
-    if (i == dimension - 1 && j == dimension - 1)
-    {
-        return 3; // Esquina inferiror derecha
-    }
-
-    if (i == dimension - 1 && j == 0)
-    {
-        return 4; // Esquina inferior izquierda
-    }
-
-    if (i == 0 && 0 < j < dimension - 1)
-    {
-        return 5; // Borde izquierdo
-    }
-
-    if (i == 0 && 0 < j < dimension - 1)
-    {
-        return 6; // Borde superiror
-    }
-
-    if (i == dimension - 1 && 0 < i < dimension - 1)
-    {
-        return 7; // Borde derecho
-    }
-
-    if (0 < i < dimension - 1 && j == dimension - 1)
-    {
-        return 8; // Borde inferior
-    }
-    else
-    {
-        return 0; // Piezas sin tope en sus vecinos.
-    }
-}
-
-struct Cola
-{
-    int fila;
-    int columna;
-    struct Cola *sig;    
-};
-
-
-
-void Recorrido(int **tablero, int dimension) //Solo para implementar la lógica de lo que contienen las piezas
-                                //dimensión es el lado más pequeño
-{
-    struct Cola A;
-    int Actual[2];
     int fila_actual;
     int columna_actual;
 
@@ -375,19 +330,35 @@ void Recorrido(int **tablero, int dimension) //Solo para implementar la lógica 
 
     // Añadimos a la Cola el elemento de la derecha y el elemento de abajo, si alguno es una pieza igualamos 
 
-    while(A != NULL)
+    while(fila[i] != NULL && columna[i] != NULL)
     {
-        if (tablero[Actual[0]][Actual[1]] != 0) //que no sea una pieza.
-            if (A[0].fila != fila_actual || A[0].columna != columna_actual)
+        if (tablero[fila_actual][columna_actual] == 0) // Que NO sea una pieza o un sector ya declarado de nadie o un sector ya declarado de una pieza.
+        { 
+            if (fila[i] != fila_actual || columna[i] != columna_actual)
             {
-                if (fila + 1 != dimesion)
-                    push(A, tablero[fila +1][columna]); // elemento de la derecha
-                if (columna + 1 != dimesion)
-                    push(A, tablero[fila][columna + 1]);  // elemento de abajo
+                if (fila_actual + 1 != dimension)
+                    //push(A, tablero[fila +1][columna_actual]); // elemento de la derecha
+                if (columna_actual + 1 != dimension) // menor que...
+                    //push(A, tablero[fila_actual][columna_actual + 1]);  // elemento de abajo
             }
-            Actual[0] = A[0].fila;
-            Actual[1] = A[0].columna;
+            fila_actual = fila[i];
+            columna_actual = columna[i];
+        }
 
-            pop(A);
+        if (pertenece == 0 && tablero[fila_actual][columna_actual] != 0)
+        {
+            pertenece = tablero[fila_actual][columna_actual];
+        }
+
+        if (pertenece != 0 && tablero[fila_actual][columna_actual] != pertenece)
+        {
+            // Significa que el área encontró más de una pieza
+            // función de cambio para área de nadie
+        }
+        i++;
     }
+
+
+
+    return 1; //temporal
 }
